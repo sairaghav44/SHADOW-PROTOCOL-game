@@ -1,0 +1,14 @@
+# window settings 
+
+WIDTH = 1280
+HEIGHT = 720
+FPS = 60
+TITLE = "SHADOW PROTOCOL"
+
+#COLORS
+
+BLACK = (10, 10, 15)
+WHITE = (255, 255, 255)
+CYAN = (0, 220, 255)
+RED = (255, 50, 70)
+DARK_GREY = (25, 25, 35)
