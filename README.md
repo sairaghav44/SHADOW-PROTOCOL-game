@@ -136,3 +136,5 @@ The project will be used to practise and apply:
 The core prototype is playable. Multiple enemy classes, the health system, health apples and the advanced AI behaviours described above are planned for future versions.
 
 This README distinguishes existing prototype features from planned work; roadmap items should only be marked complete once they have been implemented and tested.
+
+#hope you like it :)
