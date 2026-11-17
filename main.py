@@ -13,7 +13,8 @@ snake_body = [(player_x, player_y)]
 player_length = 1
 score = 0
 direction = "NONE"
-
+speed= 240
+dt = clock.tick(settings.FPS) / 1000
 
 running = True
 game_over = False
@@ -22,46 +23,27 @@ game_over = False
 while running:
     screen.fill((0, 0, 0))
 
-    if direction == "RIGHT":
-     player_x = player_x +40
-    if player_x >= screen.get_width() -4:
-        player_x = screen.get_width() -4
+    keys = pygame.key.get_pressed()
 
-    if direction == "LEFT":
-     player_x = player_x - 4
-     if player_x <= 0:
-        player_x = 0
+    if keys[pygame.K_RIGHT]:
+        player_x += speed * dt
 
-    if direction == "UP":
-         player_y = player_y - 4
-         if player_y <= 0:
-            player_y = 0
+    if keys[pygame.K_LEFT]:
+        player_x -= speed * dt
 
-    if direction == "DOWN":
-     player_y = player_y +40
-     if player_y >= screen.get_height() -4:
-        player_y = screen.get_height() -4
+    if keys[pygame.K_UP]:
+        player_y -= speed * dt
+
+    if keys[pygame.K_DOWN]:
+        player_y += speed * dt
+
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
             break   
 
-        if event.type == pygame.KEYDOWN:
-        
-            if event.key == pygame.K_RIGHT:
-                  direction = "RIGHT"
-        
-            if event.key == pygame.K_LEFT:
-                  direction = "LEFT"
-        
-            if event.key == pygame.K_UP:
-                 direction = "UP"
-        
-            if event.key == pygame.K_DOWN:
-                 direction = "DOWN"
 
-                 
     pygame.draw.rect(
         screen,
         settings.CYAN,
