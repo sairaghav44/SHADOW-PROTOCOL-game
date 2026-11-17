@@ -8,17 +8,11 @@ clock = pygame.time.Clock()
 screen = pygame.display.set_mode((settings.WIDTH, settings.HEIGHT))
 arena = pygame.Rect(15, 15, 1250, 650)
 player = pygame.Rect(100, 200, 40, 40)
-chaser = pygame.Rect(800, 300, 40, 40)
+chaser1 = pygame.Rect(800, 300, 40, 40)
 
-player_x = 100
-player_y = 200
-chaser_x = 800
-chaser_y = 300
-player_body = [(player_x, player_y)]
-player_length = 1
-score = 0
-direction = "NONE"
+
 speed= 480
+chaser1_speed = 350
  
 
 running = True
@@ -44,6 +38,7 @@ while running:
     if keys[pygame.K_DOWN]:
         player.y += speed * dt
 
+
 # LEFT
     if player.left < arena.left:
         player.left = arena.left
@@ -66,23 +61,31 @@ while running:
             running = False
             break   
 
-            # Apple collision
-    player_rect = pygame.Rect(player_x, player_y, 40, 40)
-    chaser_rect = pygame.Rect(chaser_x, chaser_y, 40, 40)
+    
 
-    if player.colliderect(chaser):
+    if player.colliderect(chaser1):
+        game_over= True
+        print("PLAYER CAUGHT!!!!!!!!!!")
+        running = False
 
-            chaser = chaser()
-            chaser_x, chaser_y = chaser
+    direction = pygame.Vector2(
+        player.centerx - chaser1.centerx,
+        player.centery - chaser1.centery
+    )  
 
-            print("PLAYER CAUGHT!!!!!!!!!!")
+    if direction.length() > 0:
+        direction = direction.normalize() 
+
+    chaser1.x += direction.x * chaser1_speed * dt
+    chaser1.y += direction.y * chaser1_speed * dt
 
 
     pygame.draw.rect(screen, settings.CYAN, player)
-    pygame.draw.rect(screen, settings.RED, chaser)
+    pygame.draw.rect(screen, settings.RED, chaser1)
 
     pygame.draw.rect(screen, settings.WHITE, arena, 3)
 
     pygame.display.flip()
 pygame.quit()
+print(direction)
 #py -3.13 main.py
