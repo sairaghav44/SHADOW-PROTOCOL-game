@@ -1,5 +1,6 @@
 import settings 
 import pygame
+import random
 
 pygame.init()
 font = pygame.font.Font(None, 36)
@@ -9,10 +10,13 @@ screen = pygame.display.set_mode((settings.WIDTH, settings.HEIGHT))
 arena = pygame.Rect(15, 15, 1250, 650)
 player = pygame.Rect(100, 200, 40, 40)
 chaser1 = pygame.Rect(800, 300, 40, 40)
+coin = pygame.Rect(400, 300, 20, 20)
 
 
 speed= 480
-chaser1_speed = 350
+chaser1_speed = 240
+score = 0
+play_again_button = pygame.Rect(400, 390, 200, 60)
  
 
 running = True
@@ -68,6 +72,11 @@ while running:
         print("PLAYER CAUGHT!!!!!!!!!!")
         running = False
 
+    if player.colliderect(coin):
+        score += 1
+        coin.x = random.randint(15, 1245)
+        coin.y = random.randint(15, 645)
+
     direction = pygame.Vector2(
         player.centerx - chaser1.centerx,
         player.centery - chaser1.centery
@@ -79,12 +88,27 @@ while running:
     chaser1.x += direction.x * chaser1_speed * dt
     chaser1.y += direction.y * chaser1_speed * dt
 
+    if game_over:
+
+        game_over_text = font.render("GAME OVER", True, (255, 0, 0))
+        final_score_text = font.render(f"Final Score: {score}", True, (255, 255, 255))
+        play_again_text = font.render("PLAY AGAIN", True, (0, 0, 0))
+
+        screen.blit(game_over_text, (400, 280))
+        screen.blit(final_score_text, (400, 330))
+
+        pygame.draw.rect(screen, (0, 255, 0), play_again_button)
+        screen.blit(play_again_text, (415, 408))
+        
+
 
     pygame.draw.rect(screen, settings.CYAN, player)
     pygame.draw.rect(screen, settings.RED, chaser1)
+    pygame.draw.rect(screen, settings.GOLD, coin)
 
     pygame.draw.rect(screen, settings.WHITE, arena, 3)
-
+    score_text = font.render(f"Score: {score}", True, settings.WHITE)
+    screen.blit(score_text, (30, 30))
     pygame.display.flip()
 pygame.quit()
 print(direction)
